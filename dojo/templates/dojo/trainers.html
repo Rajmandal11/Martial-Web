@@ -1,0 +1,38 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Trainers — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/gallery-2.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>OUR TRAINERS</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Trainers</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="trainer-grid">
+    {% for trainer in trainers %}
+    <article class="trainer-card full">
+      <img src="{% static 'dojo/img/' %}{{ trainer.image }}" alt="{{ trainer.name }}" loading="lazy">
+      <div class="trainer-body">
+        <h3>{{ trainer.name }}</h3>
+        <p class="trainer-title">{{ trainer.title }}</p>
+        <p class="trainer-spec">Specialty: {{ trainer.specialty }}</p>
+        <p>{{ trainer.bio }}</p>
+        {% if trainer.classes_taught.all %}
+        <p class="teaches"><strong>Teaches:</strong>
+          {% for s in trainer.classes_taught.all %}
+            <a href="{% url 'dojo:class_detail' s.slug %}">{{ s.name }}</a>{% if not forloop.last %}, {% endif %}
+          {% endfor %}
+        </p>
+        {% endif %}
+      </div>
+    </article>
+    {% empty %}
+    <p>Trainer profiles are coming soon.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,45 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Book Your Free Trial — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/class-karate.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>FREE TRIAL CLASS</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Free Trial</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="split">
+    <div>
+      <p class="eyebrow dark">No Cost, No Obligation</p>
+      <h2>BOOK YOUR FREE CLASS</h2>
+      <p>Fill in the form and we will confirm your trial slot by phone or WhatsApp within a few hours. Wear comfortable workout clothes — we provide the rest.</p>
+      <form method="post" class="form" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+        {% endfor %}
+        <button class="btn btn-red" type="submit">Request Free Trial</button>
+      </form>
+    </div>
+    <div class="contact-info">
+      <h3>WHAT TO EXPECT</h3>
+      <ul class="expect-list">
+        <li>✅ A full 60-minute class with our instructors</li>
+        <li>✅ Warm-up, technique drills and conditioning</li>
+        <li>✅ Training partners at your level</li>
+        <li>✅ A personal tour of the dojo after class</li>
+      </ul>
+      <h3>PREFER TO TALK?</h3>
+      <p>📞 +91 98765 43210<br>✉️ info@warriormartialarts.in</p>
+    </div>
+  </div>
+</section>
+{% endblock %}

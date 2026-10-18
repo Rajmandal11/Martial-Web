@@ -1,0 +1,59 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}About Us — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/about-warrior.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>ABOUT US</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / About Us</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="split">
+    <div>
+      <p class="eyebrow dark">Our Story</p>
+      <h2>WE BUILD WARRIORS</h2>
+      <p>Warrior Martial Arts began in 2015 with a single mat, a handful of students, and one belief: that martial arts is the fastest path to a stronger body, a sharper mind, and an unbreakable spirit.</p>
+      <p>Today we are a family of 500+ students training across five disciplines. We are more than just a dojo — we are a community where beginners are welcomed, kids grow confident, and competitors are forged.</p>
+      <p>Our mission is simple: help every student become the best version of themselves through honest, disciplined martial arts training.</p>
+    </div>
+    <div>
+      <img class="rounded" src="{% static 'dojo/img/gallery-1.jpg' %}" alt="Training at the dojo" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="values">
+  <div class="wrap">
+    <p class="eyebrow">What We Stand For</p>
+    <h2 class="section-title">OUR VALUES</h2>
+    <div class="value-grid">
+      <div class="value-card"><div class="value-icon">🥋</div><h3>Discipline</h3><p>Show up, work hard, respect the process. Progress follows discipline.</p></div>
+      <div class="value-card"><div class="value-icon">🤝</div><h3>Respect</h3><p>For instructors, training partners, and yourself — on and off the mat.</p></div>
+      <div class="value-card"><div class="value-icon">🔥</div><h3>Perseverance</h3><p>Black belts are white belts who never quit. We train through plateaus.</p></div>
+      <div class="value-card"><div class="value-icon">❤️</div><h3>Community</h3><p>A dojo is a family. We lift each other up, in victory and defeat.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <p class="eyebrow dark">Leadership</p>
+  <h2>MEET THE TEAM BEHIND THE DOJO</h2>
+  <div class="trainer-grid">
+    {% for trainer in trainers %}
+    <div class="trainer-card">
+      <img src="{% static 'dojo/img/' %}{{ trainer.image }}" alt="{{ trainer.name }}" loading="lazy">
+      <div class="trainer-body">
+        <h3>{{ trainer.name }}</h3>
+        <p class="trainer-title">{{ trainer.title }}</p>
+        <p class="trainer-spec">{{ trainer.specialty }}</p>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="center"><a class="btn btn-outline" href="{% url 'dojo:trainers' %}">All Trainers</a></div>
+</section>
+{% endblock %}

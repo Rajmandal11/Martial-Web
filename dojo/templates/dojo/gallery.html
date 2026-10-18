@@ -1,0 +1,73 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Gallery — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/gallery-2.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>GALLERY</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Gallery</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="gallery-grid">
+    {% for item in items %}
+    <figure class="gallery-item" data-full="{% static 'dojo/img/' %}{{ item.image }}" data-caption="{{ item.caption|default:item.title }}">
+      <img src="{% static 'dojo/img/' %}{{ item.image }}" alt="{{ item.title }}" loading="lazy">
+      <figcaption>{{ item.caption|default:item.title }}</figcaption>
+    </figure>
+    {% empty %}
+    <p>Photos are coming soon.</p>
+    {% endfor %}
+  </div>
+</section>
+
+<div class="lightbox" id="lightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close">✕</button>
+  <button class="lightbox-prev" id="lightboxPrev" aria-label="Previous">‹</button>
+  <figure>
+    <img id="lightboxImg" src="" alt="">
+    <figcaption id="lightboxCaption"></figcaption>
+  </figure>
+  <button class="lightbox-next" id="lightboxNext" aria-label="Next">›</button>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+(function () {
+  const items = Array.from(document.querySelectorAll('.gallery-item'));
+  const box = document.getElementById('lightbox');
+  const img = document.getElementById('lightboxImg');
+  const cap = document.getElementById('lightboxCaption');
+  let idx = 0;
+  function show(i) {
+    idx = (i + items.length) % items.length;
+    img.src = items[idx].dataset.full;
+    img.alt = items[idx].dataset.caption;
+    cap.textContent = items[idx].dataset.caption;
+    box.classList.add('open');
+    box.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    box.classList.remove('open');
+    box.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+  }
+  items.forEach((el, i) => el.addEventListener('click', () => show(i)));
+  document.getElementById('lightboxClose').addEventListener('click', hide);
+  document.getElementById('lightboxPrev').addEventListener('click', e => { e.stopPropagation(); show(idx - 1); });
+  document.getElementById('lightboxNext').addEventListener('click', e => { e.stopPropagation(); show(idx + 1); });
+  box.addEventListener('click', e => { if (e.target === box) hide(); });
+  document.addEventListener('keydown', e => {
+    if (!box.classList.contains('open')) return;
+    if (e.key === 'Escape') hide();
+    if (e.key === 'ArrowLeft') show(idx - 1);
+    if (e.key === 'ArrowRight') show(idx + 1);
+  });
+})();
+</script>
+{% endblock %}

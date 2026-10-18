@@ -1,0 +1,11 @@
+{% extends "dojo/base.html" %}
+{% block title %}Page Not Found — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="wrap content-section center narrow">
+  <h1 class="big-404">404</h1>
+  <h2>THIS PAGE TAPPED OUT</h2>
+  <p class="muted">The page you are looking for does not exist. Let's get you back to training.</p>
+  <a class="btn btn-red" href="{% url 'dojo:home' %}">Back to Home</a>
+</section>
+{% endblock %}

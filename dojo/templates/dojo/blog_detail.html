@@ -1,0 +1,45 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}{{ post.title }} — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" {% if post.image %}style="background-image:url('{% static 'dojo/img/' %}{{ post.image }}')"{% endif %}>
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>{{ post.title }}</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / <a href="{% url 'dojo:blog' %}">Blog</a> / {{ post.title|truncatewords:6 }}</p>
+  </div>
+</section>
+
+<section class="wrap content-section narrow">
+  <article class="blog-article">
+    <p class="blog-meta">{{ post.published_at|date:"F j, Y" }} · by {{ post.author }}</p>
+    {{ post.body|linebreaks }}
+  </article>
+  <div class="article-cta">
+    <h3>Ready to train like a warrior?</h3>
+    <a class="btn btn-red" href="{% url 'dojo:booking' %}">Book Your Free Trial</a>
+  </div>
+</section>
+
+{% if others %}
+<section class="wrap content-section">
+  <p class="eyebrow dark">Keep Reading</p>
+  <h2>MORE FROM THE BLOG</h2>
+  <div class="blog-grid">
+    {% for other in others %}
+    <article class="blog-card">
+      {% if other.image %}
+      <a href="{% url 'dojo:blog_detail' other.slug %}"><img src="{% static 'dojo/img/' %}{{ other.image }}" alt="{{ other.title }}" loading="lazy"></a>
+      {% endif %}
+      <div class="blog-body">
+        <p class="blog-meta">{{ other.published_at|date:"F j, Y" }}</p>
+        <h3><a href="{% url 'dojo:blog_detail' other.slug %}">{{ other.title }}</a></h3>
+        <a class="read-more" href="{% url 'dojo:blog_detail' other.slug %}">Read More →</a>
+      </div>
+    </article>
+    {% endfor %}
+  </div>
+</section>
+{% endif %}
+{% endblock %}

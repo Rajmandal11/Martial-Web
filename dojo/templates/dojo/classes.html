@@ -1,0 +1,36 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Classes — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/gallery-3.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>OUR CLASSES</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Classes</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="detail-list">
+    {% for style in class_styles %}
+    <article class="detail-row {% cycle '' 'flip' %}">
+      <div class="detail-img">
+        <a href="{% url 'dojo:class_detail' style.slug %}">
+          <img src="{% static 'dojo/img/' %}{{ style.image }}" alt="{{ style.name }}" loading="lazy">
+        </a>
+      </div>
+      <div class="detail-body">
+        <h2>{{ style.name|upper }}</h2>
+        <p class="detail-tagline">{{ style.tagline }}</p>
+        <p>{{ style.description|truncatewords:45 }}</p>
+        <a class="btn btn-red btn-sm" href="{% url 'dojo:class_detail' style.slug %}">View Details</a>
+        <a class="btn btn-outline btn-sm" href="{% url 'dojo:booking' %}?style={{ style.slug }}">Book Free Trial</a>
+      </div>
+    </article>
+    {% empty %}
+    <p>No classes have been added yet. Please check back soon.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

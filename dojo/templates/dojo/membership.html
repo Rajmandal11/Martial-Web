@@ -1,0 +1,37 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Membership Plans — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/hero-fighter.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>MEMBERSHIP</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Membership</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <p class="eyebrow dark center">Simple Pricing</p>
+  <h2 class="center">CHOOSE YOUR PLAN</h2>
+  <p class="center muted">Every plan starts with a free trial class. No joining fee, cancel anytime on monthly plans.</p>
+  <div class="plan-grid">
+    {% for plan in plans %}
+    <article class="plan-card {% if plan.highlighted %}featured{% endif %}">
+      {% if plan.highlighted %}<span class="plan-flag">MOST POPULAR</span>{% endif %}
+      <h3>{{ plan.name }}</h3>
+      <p class="plan-price">₹{{ plan.price|floatformat:0 }}<small> {{ plan.duration }}</small></p>
+      <ul class="plan-features">
+        {% for feature in plan.feature_list %}
+        <li>{{ feature }}</li>
+        {% endfor %}
+      </ul>
+      <a class="btn {% if plan.highlighted %}btn-red{% else %}btn-outline{% endif %}" href="{% url 'dojo:booking' %}">Start Free Trial</a>
+    </article>
+    {% empty %}
+    <p>Membership plans are coming soon.</p>
+    {% endfor %}
+  </div>
+  <p class="note center">Prices include GST. Student and family discounts available — ask at the front desk.</p>
+</section>
+{% endblock %}

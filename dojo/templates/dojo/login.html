@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Member Login — Warrior Martial Arts</title>
+  <link rel="stylesheet" href="{% static 'dojo/css/login.css' %}">
+</head>
+<body>
+  <a class="login-back" href="{% url 'dojo:home' %}">← Back to site</a>
+  <div class="blob blob-1"></div>
+  <div class="blob blob-2"></div>
+
+  <div class="dojo-3d" aria-hidden="true">
+    <div class="dojo-3d-orbit dojo-3d-orbit-a"></div>
+    <div class="dojo-3d-orbit dojo-3d-orbit-b"></div>
+    <div class="dojo-3d-cube">
+      <span class="dojo-3d-face dojo-3d-front">W</span>
+      <span class="dojo-3d-face dojo-3d-back">✦</span>
+      <span class="dojo-3d-face dojo-3d-right"></span>
+      <span class="dojo-3d-face dojo-3d-left"></span>
+      <span class="dojo-3d-face dojo-3d-top"></span>
+      <span class="dojo-3d-face dojo-3d-bottom"></span>
+    </div>
+  </div>
+
+  <main class="login-stage">
+    <div class="login-logo">
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <circle cx="24" cy="24" r="22" fill="#c8102e"/>
+        <path d="M24 9l4.6 9.4 10.4 1.5-7.5 7.3 1.8 10.3-9.3-4.9-9.3 4.9 1.8-10.3-7.5-7.3L20.4 18.4z" fill="#fff"/>
+      </svg>
+    </div>
+
+    <h1>Welcome Back</h1>
+    <p class="login-sub">S i g n &nbsp; i n &nbsp; t o &nbsp; c o n t i n u e</p>
+
+    <form method="post" class="login-form" novalidate>
+      {% csrf_token %}
+      {% if form.non_field_errors %}
+        <p class="login-error">{{ form.non_field_errors|join:" " }}</p>
+      {% endif %}
+      <div class="neu-field">
+        <span class="neu-icon">👤</span>
+        <input type="text" name="username" id="id_username" placeholder="Username or Email"
+               autocomplete="username" required
+               value="{{ form.username.value|default:'' }}">
+      </div>
+      <div class="neu-field">
+        <span class="neu-icon">🔒</span>
+        <input type="password" name="password" id="id_password" placeholder="Password"
+               autocomplete="current-password" required>
+        <button type="button" class="pw-toggle" id="pwToggle" aria-label="Show password">👁</button>
+      </div>
+
+      <div class="login-row">
+        <label class="remember">
+          <input type="checkbox" name="remember_me" checked>
+          <span class="checkbox"></span>
+          Remember Me
+        </label>
+        <a class="forgot" href="#" id="forgotLink">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="login-btn">Login <span class="login-arrow">→</span></button>
+      <input type="hidden" name="next" value="{{ next|default:'' }}">
+    </form>
+
+    <p class="demo-hint">Demo member account — username <strong>demo</strong>, password <strong>warrior123</strong></p>
+  </main>
+
+  <footer class="login-foot">TRAIN &nbsp;·&nbsp; COMPETE &nbsp;·&nbsp; GROW TOGETHER</footer>
+
+  <script>
+    document.getElementById('pwToggle').addEventListener('click', function () {
+      const pw = document.getElementById('id_password');
+      pw.type = pw.type === 'password' ? 'text' : 'password';
+    });
+    document.getElementById('forgotLink').addEventListener('click', function (e) {
+      e.preventDefault();
+      alert('Password resets are handled by the dojo front desk for this demo.\nCall +91 98765 43210.');
+    });
+  </script>
+</body>
+</html>

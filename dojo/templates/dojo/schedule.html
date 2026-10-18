@@ -1,0 +1,41 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Class Schedule — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/gallery-1.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>CLASS SCHEDULE</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Schedule</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="filter-bar">
+    <span class="filter-label">Filter by style:</span>
+    <a href="{% url 'dojo:schedule' %}" class="filter-pill {% if not active %}on{% endif %}">All</a>
+    {% for s in styles %}
+    <a href="{% url 'dojo:schedule' %}?style={{ s.slug }}" class="filter-pill {% if active == s.slug %}on{% endif %}">{{ s.name }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="week-grid">
+    {% for code, label, day_slots in week %}
+    <div class="day-col">
+      <h3>{{ label }}</h3>
+      {% for slot in day_slots %}
+      <div class="slot">
+        <strong>{{ slot.start_time|time:"g:i A" }} – {{ slot.end_time|time:"g:i A" }}</strong>
+        <span class="slot-style">{{ slot.class_style.name }}</span>
+        {% if slot.trainer %}<span class="slot-trainer">{{ slot.trainer.name }}</span>{% endif %}
+      </div>
+      {% empty %}
+      <div class="slot rest"><span>No classes</span></div>
+      {% endfor %}
+    </div>
+    {% endfor %}
+  </div>
+  <p class="note">Doors open 30 minutes before the first class. Sunday the dojo is closed.</p>
+</section>
+{% endblock %}

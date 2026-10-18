@@ -1,0 +1,33 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Blog — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/class-kickboxing.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>BLOG</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Blog</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="blog-grid">
+    {% for post in posts %}
+    <article class="blog-card">
+      {% if post.image %}
+      <a href="{% url 'dojo:blog_detail' post.slug %}"><img src="{% static 'dojo/img/' %}{{ post.image }}" alt="{{ post.title }}" loading="lazy"></a>
+      {% endif %}
+      <div class="blog-body">
+        <p class="blog-meta">{{ post.published_at|date:"F j, Y" }} · by {{ post.author }}</p>
+        <h3><a href="{% url 'dojo:blog_detail' post.slug %}">{{ post.title }}</a></h3>
+        <p>{{ post.excerpt }}</p>
+        <a class="read-more" href="{% url 'dojo:blog_detail' post.slug %}">Read More →</a>
+      </div>
+    </article>
+    {% empty %}
+    <p>No posts yet. Check back soon.</p>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

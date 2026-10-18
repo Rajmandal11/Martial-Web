@@ -1,0 +1,47 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Contact Us — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/gallery-1.jpg' %}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>CONTACT US</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / Contact</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="split">
+    <div>
+      <p class="eyebrow dark">Get In Touch</p>
+      <h2>SEND US A MESSAGE</h2>
+      <form method="post" class="form" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+        <div class="field">
+          {{ field.label_tag }}
+          {{ field }}
+          {% if field.errors %}<p class="field-error">{{ field.errors|join:", " }}</p>{% endif %}
+        </div>
+        {% endfor %}
+        <button class="btn btn-red" type="submit">Send Message</button>
+      </form>
+    </div>
+    <div class="contact-info">
+      <h3>DOJO ADDRESS</h3>
+      <p>📍 123 Warrior Way, Andheri West,<br>Mumbai 400053, India</p>
+      <h3>PHONE</h3>
+      <p>📞 +91 98765 43210</p>
+      <h3>EMAIL</h3>
+      <p>✉️ info@warriormartialarts.in</p>
+      <h3>TRAINING HOURS</h3>
+      <ul class="hours dark">
+        <li><span>Monday – Friday</span><span>6:00 AM – 9:00 PM</span></li>
+        <li><span>Saturday</span><span>8:00 AM – 2:00 PM</span></li>
+        <li><span>Sunday</span><span>Closed</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+{% endblock %}

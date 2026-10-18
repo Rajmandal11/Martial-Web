@@ -1,0 +1,43 @@
+{% extends "dojo/base.html" %}
+{% block title %}Member Area — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="wrap content-section">
+  <p class="eyebrow dark">Member Area</p>
+  <h2>WELCOME, {{ user.first_name|default:user.username|upper }}</h2>
+
+  <div class="member-bar">
+    <p>Signed in as <strong>{{ user.username }}</strong> ({{ user.email|default:"no email on file" }})</p>
+    <div>
+      {% if user.is_staff %}
+      <a class="btn btn-outline btn-sm" href="{% url 'admin:index' %}">Open Admin</a>
+      {% endif %}
+      <form method="post" action="{% url 'dojo:logout' %}" class="inline-form">
+        {% csrf_token %}
+        <button class="btn btn-red btn-sm" type="submit">Log Out</button>
+      </form>
+    </div>
+  </div>
+
+  <h3>YOUR TRIAL BOOKINGS</h3>
+  {% if bookings %}
+  <div class="table-wrap">
+    <table class="schedule-table">
+      <thead><tr><th>Class</th><th>Preferred Date</th><th>Status</th><th>Booked On</th></tr></thead>
+      <tbody>
+        {% for b in bookings %}
+        <tr>
+          <td>{% if b.class_style %}{{ b.class_style.name }}{% else %}Any class{% endif %}</td>
+          <td>{{ b.preferred_date|date:"l, F j, Y" }}</td>
+          <td><span class="status status-{{ b.status }}">{{ b.get_status_display }}</span></td>
+          <td>{{ b.created_at|date:"F j, Y" }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p class="muted">You have no trial bookings yet. <a href="{% url 'dojo:booking' %}">Book your free class →</a></p>
+  {% endif %}
+</section>
+{% endblock %}

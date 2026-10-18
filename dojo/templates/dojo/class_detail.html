@@ -1,0 +1,71 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}{{ style.name }} — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="page-hero" style="background-image:url('{% static 'dojo/img/' %}{{ style.image }}')">
+  <div class="page-hero-overlay"></div>
+  <div class="wrap">
+    <h1>{{ style.name|upper }}</h1>
+    <p class="crumb"><a href="{% url 'dojo:home' %}">Home</a> / <a href="{% url 'dojo:classes' %}">Classes</a> / {{ style.name }}</p>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <div class="split">
+    <div>
+      <p class="eyebrow dark">{{ style.tagline }}</p>
+      <h2>ABOUT THIS STYLE</h2>
+      <p>{{ style.description|linebreaks }}</p>
+      <div class="trainer-chips">
+        {% for t in style.trainers.all %}
+        <span class="chip">🥋 {{ t.name }} — {{ t.title }}</span>
+        {% endfor %}
+      </div>
+      <a class="btn btn-red" href="{% url 'dojo:booking' %}?style={{ style.slug }}">Book Free Trial</a>
+    </div>
+    <div>
+      <img class="rounded" src="{% static 'dojo/img/' %}{{ style.image }}" alt="{{ style.name }}" loading="lazy">
+    </div>
+  </div>
+</section>
+
+<section class="wrap content-section">
+  <p class="eyebrow dark">Weekly Schedule</p>
+  <h2>{{ style.name|upper }} CLASS TIMES</h2>
+  {% if slots %}
+  <div class="table-wrap">
+    <table class="schedule-table">
+      <thead><tr><th>Day</th><th>Time</th><th>Instructor</th></tr></thead>
+      <tbody>
+        {% for slot in slots %}
+        <tr>
+          <td>{{ slot.get_day_display }}</td>
+          <td>{{ slot.start_time|time:"g:i A" }} – {{ slot.end_time|time:"g:i A" }}</td>
+          <td>{% if slot.trainer %}{{ slot.trainer.name }}{% else %}—{% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% else %}
+  <p>No sessions are currently scheduled for this style.</p>
+  {% endif %}
+</section>
+
+<section class="wrap content-section">
+  <p class="eyebrow dark">Keep Exploring</p>
+  <h2>OTHER STYLES</h2>
+  <div class="style-cards small">
+    {% for other in related %}
+    <a class="style-card" href="{% url 'dojo:class_detail' other.slug %}">
+      <div class="style-card-img">
+        <img src="{% static 'dojo/img/' %}{{ other.image }}" alt="{{ other.name }}" loading="lazy">
+        <span class="style-badge">{{ other.icon }}</span>
+      </div>
+      <div class="style-card-body"><h3>{{ other.name|upper }}</h3><p>{{ other.tagline }}</p></div>
+    </a>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

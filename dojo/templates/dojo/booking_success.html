@@ -1,0 +1,20 @@
+{% extends "dojo/base.html" %}
+{% block title %}Trial Booked — Warrior Martial Arts{% endblock %}
+
+{% block content %}
+<section class="wrap content-section center narrow">
+  <div class="success-card">
+    <div class="success-icon">🥋</div>
+    <h2>YOU'RE BOOKED!</h2>
+    {% if booking %}
+    <p>Thanks, <strong>{{ booking.name }}</strong>! Your free trial
+      {% if booking.class_style %}for <strong>{{ booking.class_style.name }}</strong>{% endif %}
+      is requested for <strong>{{ booking.preferred_date|date:"l, F j, Y" }}</strong>.</p>
+    {% else %}
+    <p>Thanks! Your free trial request has been received.</p>
+    {% endif %}
+    <p>We will confirm your slot by phone or WhatsApp shortly.</p>
+    <a class="btn btn-red" href="{% url 'dojo:home' %}">Back to Home</a>
+  </div>
+</section>
+{% endblock %}

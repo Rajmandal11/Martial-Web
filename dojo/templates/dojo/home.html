@@ -1,0 +1,116 @@
+{% extends "dojo/base.html" %}
+{% load static %}
+{% block title %}Warrior Martial Arts — Discipline. Focus. Strength.{% endblock %}
+
+{% block content %}
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg" style="background-image:url('{% static 'dojo/img/hero-fighter.jpg' %}')"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <h1>DISCIPLINE.<br>FOCUS.<br><span class="red">STRENGTH.</span></h1>
+    <p class="hero-sub">Martial arts builds a stronger body, a sharper mind, and an unbreakable spirit.</p>
+    <div class="hero-actions">
+      <a class="btn btn-red" href="{% url 'dojo:booking' %}">Start Free Trial</a>
+      <a class="btn btn-ghost" href="{% url 'dojo:classes' %}">▶ &nbsp;Explore Classes</a>
+    </div>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="benefits">
+  <div class="wrap benefits-grid">
+    <div class="benefit">
+      <div class="benefit-icon">🧘</div>
+      <h3>Build Confidence</h3>
+      <p>Develop self-confidence and believe in your abilities.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🛡️</div>
+      <h3>Learn Self Defense</h3>
+      <p>Practical techniques to protect yourself and your loved ones.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">💪</div>
+      <h3>Get Fit &amp; Strong</h3>
+      <p>Improve your strength, flexibility, and overall fitness.</p>
+    </div>
+    <div class="benefit">
+      <div class="benefit-icon">🎯</div>
+      <h3>Improve Focus</h3>
+      <p>Sharpen your mind and improve concentration.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHOOSE YOUR STYLE -->
+<section class="styles-section">
+  <div class="wrap">
+    <p class="eyebrow">Our Classes</p>
+    <h2 class="section-title">CHOOSE YOUR STYLE</h2>
+    <div class="style-cards">
+      {% for style in class_styles %}
+      <a class="style-card" href="{% url 'dojo:class_detail' style.slug %}">
+        <div class="style-card-img">
+          <img src="{% static 'dojo/img/' %}{{ style.image }}" alt="{{ style.name }}" loading="lazy">
+          <span class="style-badge">{{ style.icon }}</span>
+        </div>
+        <div class="style-card-body">
+          <h3>{{ style.name|upper }}</h3>
+          <p>{{ style.tagline }}</p>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+    <div class="center"><a class="btn btn-outline" href="{% url 'dojo:classes' %}">View All Classes</a></div>
+  </div>
+</section>
+
+<!-- ABOUT / STATS -->
+<section class="about-band">
+  <div class="wrap about-grid">
+    <div class="about-text">
+      <p class="eyebrow dark">About Us</p>
+      <h2>WE BUILD WARRIORS</h2>
+      <p>At Warrior Martial Arts, we are more than just a dojo. We are a family. Our mission is to help every student become the best version of themselves through martial arts training.</p>
+      <ul class="checklist">
+        <li>Experienced &amp; Certified Instructors</li>
+        <li>Clean, Safe &amp; Positive Environment</li>
+        <li>Programs for All Ages &amp; Levels</li>
+      </ul>
+      <a class="btn btn-red" href="{% url 'dojo:about' %}">Learn More</a>
+    </div>
+    <div class="about-img">
+      <img src="{% static 'dojo/img/about-warrior.jpg' %}" alt="Warrior standing ready" loading="lazy">
+    </div>
+    <div class="stats">
+      <p class="eyebrow dark">Why Choose Us</p>
+      <h2>BEST TRAINING. STRONG COMMUNITY.</h2>
+      <div class="stats-grid">
+        <div class="stat"><strong>10+</strong><span>Years of Experience</span></div>
+        <div class="stat"><strong>500+</strong><span>Happy Students</span></div>
+        <div class="stat"><strong>15+</strong><span>Expert Instructors</span></div>
+        <div class="stat"><strong>100%</strong><span>Focus on Discipline</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+{% if testimonials %}
+<section class="testimonials">
+  <div class="wrap">
+    <p class="eyebrow">Testimonials</p>
+    <h2 class="section-title">WARRIORS SPEAK</h2>
+    <div class="quote-grid">
+      {% for t in testimonials %}
+      <blockquote class="quote">
+        <p>“{{ t.text }}”</p>
+        <footer><strong>{{ t.name }}</strong><span>{{ t.role }}</span></footer>
+      </blockquote>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endif %}
+{% endblock %}
