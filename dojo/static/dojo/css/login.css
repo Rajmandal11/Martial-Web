@@ -1,0 +1,174 @@
+/* ============================================================
+   WARRIOR MARTIAL ARTS — member login (neumorphic light theme)
+   Soft off-white surface, pill fields, blue gradient login button.
+   Used ONLY on the login page, per the reference design.
+   ============================================================ */
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  font-family: "Segoe UI", "Helvetica Neue", Arial, system-ui, sans-serif;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  background: #e8ecf5;
+  background-image:
+    radial-gradient(circle at 8% 4%, rgba(120,150,255,.35) 0 90px, transparent 91px),
+    radial-gradient(circle at 94% 12%, rgba(150,180,255,.35) 0 120px, transparent 121px),
+    radial-gradient(circle at 90% 92%, rgba(120,150,255,.30) 0 150px, transparent 151px),
+    radial-gradient(circle at 4% 96%, rgba(150,180,255,.30) 0 110px, transparent 111px);
+  color: #1e2440;
+  padding: 40px 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+.blob { position: fixed; border-radius: 50%; filter: blur(2px); z-index: 0; pointer-events: none; }
+.blob-1 { width: 420px; height: 420px; top: -160px; left: -140px;
+  background: radial-gradient(circle, rgba(130,160,255,.45), transparent 70%); }
+.blob-2 { width: 520px; height: 520px; bottom: -220px; right: -160px;
+  background: radial-gradient(circle, rgba(130,160,255,.38), transparent 70%); }
+
+/* Shared animated 3D dojo crest, adapted to the standalone login layout. */
+.dojo-3d {
+  --dojo-size: 112px;
+  position: fixed; z-index: 0; right: clamp(18px, 6vw, 90px); bottom: 70px;
+  width: var(--dojo-size); height: var(--dojo-size); display: grid; place-items: center;
+  perspective: 700px; pointer-events: none; opacity: .6;
+  animation: dojo-float 5s ease-in-out infinite;
+}
+.dojo-3d-orbit { position: absolute; inset: 8%; border: 1px solid rgba(91,108,255,.55); border-radius: 50%; }
+.dojo-3d-orbit-a { transform: rotateX(68deg) rotateZ(-25deg); animation: dojo-orbit-a 9s linear infinite; }
+.dojo-3d-orbit-b { inset: 0; border-color: rgba(91,108,255,.32); transform: rotateY(68deg) rotateZ(25deg); animation: dojo-orbit-b 12s linear infinite; }
+.dojo-3d-cube { position: relative; width: 42px; height: 42px; transform-style: preserve-3d; animation: dojo-cube-spin 12s linear infinite; }
+.dojo-3d-face {
+  position: absolute; inset: 0; display: grid; place-items: center;
+  border: 1px solid rgba(255,255,255,.9);
+  background: linear-gradient(145deg, rgba(113,140,255,.96), rgba(47,79,224,.95));
+  color: white; font: 900 25px/1 Arial, sans-serif; box-shadow: inset 0 0 14px rgba(255,255,255,.25);
+}
+.dojo-3d-front { transform: translateZ(21px); }
+.dojo-3d-back { transform: rotateY(180deg) translateZ(21px); }
+.dojo-3d-right { transform: rotateY(90deg) translateZ(21px); }
+.dojo-3d-left { transform: rotateY(-90deg) translateZ(21px); }
+.dojo-3d-top { transform: rotateX(90deg) translateZ(21px); }
+.dojo-3d-bottom { transform: rotateX(-90deg) translateZ(21px); }
+@keyframes dojo-cube-spin { from { transform: rotateX(-22deg) rotateY(0deg); } to { transform: rotateX(338deg) rotateY(360deg); } }
+@keyframes dojo-orbit-a { to { transform: rotateX(68deg) rotateZ(335deg); } }
+@keyframes dojo-orbit-b { to { transform: rotateY(68deg) rotateZ(385deg); } }
+@keyframes dojo-float { 0%, 100% { translate: 0 0; } 50% { translate: 0 -12px; } }
+
+.login-back {
+  position: absolute; top: 22px; left: 24px; z-index: 2;
+  color: #5b6cff; font-weight: 600; font-size: 14px; text-decoration: none;
+}
+.login-back:hover { text-decoration: underline; }
+
+.login-stage {
+  position: relative; z-index: 1;
+  width: 100%; max-width: 430px; text-align: center;
+}
+
+.login-logo {
+  width: 130px; height: 130px; margin: 0 auto 28px;
+  border-radius: 38px;
+  background: #eef1f9;
+  box-shadow: 12px 12px 28px rgba(160,175,220,.55), -12px -12px 28px rgba(255,255,255,.95),
+              inset 3px 3px 8px rgba(255,255,255,.8), inset -3px -3px 8px rgba(160,175,220,.25);
+  display: grid; place-items: center;
+}
+.login-logo svg { width: 74px; height: 74px; }
+
+.login-stage h1 { font-size: 38px; font-weight: 800; letter-spacing: .5px; color: #141a35; }
+.login-sub { color: #8b93ad; font-size: 14px; letter-spacing: 2px; margin: 8px 0 30px; text-transform: uppercase; }
+
+.login-form { display: flex; flex-direction: column; gap: 16px; }
+
+.neu-field {
+  display: flex; align-items: center; gap: 12px;
+  background: #eef1f9; border-radius: 22px; padding: 4px 22px 4px 8px;
+  box-shadow: inset 6px 6px 14px rgba(160,175,220,.45), inset -6px -6px 14px rgba(255,255,255,.95);
+  border: 1px solid rgba(255,255,255,.6);
+}
+.neu-icon {
+  font-size: 20px; width: 44px; height: 44px; flex: none;
+  display: grid; place-items: center; border-radius: 50%;
+  background: #e4e9f6; color: #5b6cff;
+  box-shadow: 4px 4px 10px rgba(160,175,220,.4), -4px -4px 10px rgba(255,255,255,.9);
+}
+.neu-field input {
+  flex: 1; border: 0; background: transparent; outline: none;
+  font-size: 16px; padding: 18px 0; color: #1e2440; min-width: 0;
+}
+.neu-field input::placeholder { color: #9aa3c0; }
+.pw-toggle { background: none; border: 0; font-size: 20px; cursor: pointer; color: #8b93ad; padding: 6px; }
+
+.login-error {
+  background: #ffe3e6; color: #b00020; border-radius: 12px;
+  padding: 12px 16px; font-size: 14px; font-weight: 600;
+}
+
+.login-row {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 2px 8px;
+}
+.remember { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 600; color: #3c4470; cursor: pointer; }
+.remember input { display: none; }
+.checkbox {
+  width: 24px; height: 24px; border-radius: 7px; display: grid; place-items: center;
+  background: #eef1f9;
+  box-shadow: inset 3px 3px 7px rgba(160,175,220,.5), inset -3px -3px 7px rgba(255,255,255,.9);
+  font-size: 14px; color: #fff; transition: all .15s ease;
+}
+.remember input:checked + .checkbox {
+  background: linear-gradient(135deg, #4f7cff, #2f4fe0);
+  box-shadow: 3px 3px 8px rgba(80,110,255,.5);
+}
+.remember input:checked + .checkbox::after { content: "✓"; }
+.forgot { color: #2f6bff; font-size: 14px; font-weight: 600; text-decoration: none; }
+.forgot:hover { text-decoration: underline; }
+
+.login-btn {
+  margin-top: 6px; border: 0; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; gap: 10px;
+  background: linear-gradient(135deg, #5b8cff, #2f4fe0);
+  color: #fff; font-size: 20px; font-weight: 700; letter-spacing: 1px;
+  padding: 17px; border-radius: 30px;
+  box-shadow: 8px 8px 20px rgba(70,100,255,.45), inset 2px 2px 6px rgba(255,255,255,.35);
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.login-btn:hover { transform: translateY(-2px); box-shadow: 10px 12px 26px rgba(70,100,255,.55), inset 2px 2px 6px rgba(255,255,255,.35); }
+.login-btn:active { transform: translateY(0); }
+.login-arrow {
+  width: 38px; height: 38px; border-radius: 50%; background: rgba(255,255,255,.22);
+  display: grid; place-items: center; font-size: 20px;
+}
+
+.demo-hint {
+  margin-top: 26px; font-size: 13px; color: #8b93ad;
+  background: rgba(255,255,255,.5); border-radius: 12px; padding: 10px 14px;
+  display: inline-block;
+}
+.demo-hint strong { color: #2f4fe0; }
+
+.login-foot {
+  position: relative; z-index: 1; margin-top: 40px;
+  color: #8b93ad; font-size: 12px; letter-spacing: 4px; font-weight: 600;
+}
+
+@media (max-width: 480px) {
+  .login-stage h1 { font-size: 30px; }
+  .dojo-3d { --dojo-size: 78px; right: 12px; bottom: 18px; opacity: .38; }
+  .dojo-3d-cube { width: 30px; height: 30px; }
+  .dojo-3d-face { font-size: 18px; }
+  .dojo-3d-front { transform: translateZ(15px); }
+  .dojo-3d-back { transform: rotateY(180deg) translateZ(15px); }
+  .dojo-3d-right { transform: rotateY(90deg) translateZ(15px); }
+  .dojo-3d-left { transform: rotateY(-90deg) translateZ(15px); }
+  .dojo-3d-top { transform: rotateX(90deg) translateZ(15px); }
+  .dojo-3d-bottom { transform: rotateX(-90deg) translateZ(15px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dojo-3d, .dojo-3d-orbit, .dojo-3d-cube { animation: none; }
+  .dojo-3d-cube { transform: rotateX(-22deg) rotateY(-28deg); }
+}
